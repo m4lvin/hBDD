@@ -183,8 +183,7 @@ newVar allocVar label =
          case label `Map.lookup` toBDD of
            Just bdd -> return (Nothing, bdd)
            Nothing ->
-             do putStrLn $ "Allocating: " ++ label
-                bddp <- allocVar
+             do bddp <- allocVar
                 vid <- fmap cToNum $
                          {#call unsafe Cudd_NodeReadIndex as _cudd_NodeReadIndex#} bddp
                 --putStrLn $ label ++ " -> " ++ (show (vid, bdd))
