@@ -44,8 +44,6 @@ import Foreign		( ForeignPtr, withForeignPtr, newForeignPtr, newForeignPtr_, fin
                         , mallocArray )
 import Foreign.C
 
-import GHC.ForeignPtr   ( newConcForeignPtr )
-
 import System.IO	( Handle, hIsReadable, hIsWritable )
 -- import System.Mem	( performGC )
 import System.Posix.IO	( handleToFd )
@@ -158,9 +156,7 @@ bdd_vars = unsafePerformIO $ newIORef (Map.empty, Map.empty)
 -- The call to "Cudd_Ref" happens in C to ensure atomicity.
 -- Returning objects with initial refcount 0 is a bad design decision.
 addBDDfinalizer :: Ptr BDD -> IO BDD
-addBDDfinalizer bddp = liftM BDD $ newConcForeignPtr bddp bddf
-    where bddf = {#call unsafe Cudd_RecursiveDeref as _cudd_RecursiveDeref#} ddmanager bddp
-                   >> return ()
+addBDDfinalizer bddp = liftM BDD $ newForeignPtr_ bddp
 {-# INLINE addBDDfinalizer #-}
 
 -- | Attaches a null finalizer to a 'BDD' object.
