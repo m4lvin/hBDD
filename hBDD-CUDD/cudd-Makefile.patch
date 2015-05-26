@@ -1,0 +1,4 @@
+54c54
+< ICFLAGS	= -g -O3
+---                                                                                                                   
+> ICFLAGS	= -g -O3 -fPIC
