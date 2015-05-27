@@ -79,6 +79,9 @@ class Boolean b where
   -- | If-and-only-if is exclusive nor.
   (<->) :: b -> b -> b
   x <-> y = neg (x `xor` y)
+  -- | If-then-else
+  ifthenelse :: b -> b -> b -> b
+  ifthenelse x y z = (x --> y) /\ (neg x --> z)
 
 -- | Reverse implication
 (<--) :: Boolean b => b -> b -> b
