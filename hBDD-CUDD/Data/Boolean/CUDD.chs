@@ -234,10 +234,10 @@ instance Boolean BDD where
     -- (-->) = FIXME ???
     (<->) = bddBinOp XNOR
 
-    -- bITE i t e = unsafePerformIO $
-    --   withBDD i $ \ip -> withBDD t $ \tp -> withBDD e $ \ep ->
-    --     {#call unsafe cudd_bddIte#} ddmanager ip tp ep
-    --       >>= addBDDfinalizer
+    ifthenelse i t e = unsafePerformIO $
+      withBDD i $ \ip -> withBDD t $ \tp -> withBDD e $ \ep ->
+        {#call unsafe cudd_bddIte#} ddmanager ip tp ep
+          >>= addBDDfinalizer
 
 cudd_constant :: (DDManager -> IO (Ptr BDD)) -> BDD
 cudd_constant f = unsafePerformIO $ f ddmanager >>= addBDDnullFinalizer
