@@ -1,25 +1,27 @@
-CUDDURL = ftp://vlsi.colorado.edu/pub/cudd-2.5.1.tar.gz
-CUDDFILE = $(HOME)/src/cudd-2.5.1.tar.gz
-CABALFLAGS = --reinstall --force-reinstalls --extra-include-dirs=$(HOME)/src/cudd-2.5.1/cudd --extra-include-dirs=$(HOME)/src/cudd-2.5.1/mtr --extra-include-dirs=$(HOME)/src/cudd-2.5.1/epd --extra-include-dirs=$(HOME)/src/cudd-2.5.1/st --extra-include-dirs=$(HOME)/src/cudd-2.5.1/util --extra-lib-dirs=$(HOME)/src/cudd-2.5.1/cudd --extra-lib-dirs=$(HOME)/src/cudd-2.5.1/mtr --extra-lib-dirs=$(HOME)/src/cudd-2.5.1/epd --extra-lib-dirs=$(HOME)/src/cudd-2.5.1/st --extra-lib-dirs=$(HOME)/src/cudd-2.5.1/util
+
+CUDDGIT = https://github.com/adamwalker/cudd.git
+
+CUDDDIR = $(HOME)/src/cudd
+
+CABALFLAGS = --reinstall --force-reinstalls --extra-include-dirs=$(CUDDDIR)/include --extra-lib-dirs=$(CUDDDIR)/libso
 
 install:
 	make install-hBDD
 	make install-hBDD-CUDD
 
 install-hBDD:
-	cabal install
+	cabal install --force-reinstalls
 
 install-hBDD-CUDD:
-	mkdir -p $(HOME)/src
-	wget $(CUDDURL) -c -O $(CUDDFILE)
-	tar xvf $(CUDDFILE) -C $(HOME)/src/
-	patch $(HOME)/src/cudd-2.5.1/Makefile ./hBDD-CUDD/cudd-Makefile.patch
-	cd $(HOME)/src/cudd-2.5.1/ && make
-	cabal install $(CABALFLAGS)
+	mkdir -p $(CUDDDIR)
+	if [ ! -d $(CUDDDIR)/.git ] ; \
+	then git clone https://github.com/adamwalker/cudd.git $(HOME)/src/cudd ; \
+	else cd $(CUDDDIR) && git pull ; \
+	fi ;
+	cd $(CUDDDIR) && make -f Makefile.64bit libso
 	cd ./hBDD-CUDD && cabal install $(CABALFLAGS)
-	rm -rf $(HOME)/src/hBDD
 	@echo
-	@echo !!! Do NOT delete the folder $(HOME)/src/cudd-2.5.1.
+	@echo !!! Do NOT delete the folder $(CUDDDIR)
 	@echo !!! Your hBDD-CUDD is bound to it.
 	@echo
 
