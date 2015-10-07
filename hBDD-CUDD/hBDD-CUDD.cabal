@@ -28,7 +28,8 @@ Library
   includes: stdio.h cudd.h
   include-dirs: im
   c-sources: im/cudd_im.c
-  ghc-options: -Wall
+  cc-options: -fPIC -shared
+  ghc-options: -pgml g++ -Wall -fPIC
   if os(darwin)
     -- We're guessing that they've used MacPorts to install CUDD
     -- This builds a .dylib

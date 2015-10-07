@@ -1,4 +1,4 @@
 54c54
 < ICFLAGS	= -g -O3
----                                                                                                                   
-> ICFLAGS	= -g -O3 -fPIC
+---
+> ICFLAGS	= -g -O3 -fPIC -shared
