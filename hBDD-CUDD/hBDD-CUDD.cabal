@@ -37,4 +37,6 @@ Library
     extra-lib-dirs: /opt/local/lib/cudd
     extra-libraries: cudd
   if os(linux)
+    include-dirs: /usr/local/cudd/include
+    extra-lib-dirs: /usr/local/cudd/libso
     extra-libraries: cudd, mtr, st, util, epd
