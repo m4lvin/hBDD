@@ -1,7 +1,7 @@
 
 CUDDGIT = https://github.com/adamwalker/cudd.git
 
-CUDDDIR = /usr/local/cudd
+CUDDDIR = /usr/local/lib/cudd
 
 CABALFLAGS = --reinstall --force-reinstalls
 
@@ -17,9 +17,11 @@ install-cudd:
 	else cd ./dist/cudd && git pull ; \
 	fi ;
 	cd ./dist/cudd/ && make -f Makefile.64bit libso
-	@echo "Please allow me to copy cudd to /usr/local/cudd"
-	sudo cp -Lvr ./dist/cudd/include/* /usr/local/cudd/include/
-	sudo cp -Lvr ./dist/cudd/libso/* /usr/local/cudd/libso/
+	@echo "Please allow me to copy cudd to $(CUDDDIR)"
+	sudo mkdir -p $(CUDDDIR)/include
+	sudo mkdir -p $(CUDDDIR)/libso
+	sudo cp -Lvr ./dist/cudd/include/* $(CUDDDIR)/include/
+	sudo cp -Lvr ./dist/cudd/libso/* $(CUDDDIR)/libso/
 
 install-hBDD:
 	cabal install $(CABALFLAGS)
