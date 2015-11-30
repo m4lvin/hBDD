@@ -30,13 +30,6 @@ Library
   c-sources: im/cudd_im.c
   cc-options: -fPIC -shared
   ghc-options: -pgml g++ -Wall -fPIC
-  if os(darwin)
-    -- We're guessing that they've used MacPorts to install CUDD
-    -- This builds a .dylib
-    include-dirs: /opt/local/include/cudd
-    extra-lib-dirs: /opt/local/lib/cudd
-    extra-libraries: cudd
-  if os(linux)
-    include-dirs: /usr/local/cudd/include
-    extra-lib-dirs: /usr/local/cudd/libso
-    extra-libraries: cudd, mtr, st, util, epd
+  include-dirs: /usr/local/lib/cudd/include
+  extra-lib-dirs: /usr/local/lib/cudd/libso
+  extra-libraries: cudd, mtr, st, util, epd
